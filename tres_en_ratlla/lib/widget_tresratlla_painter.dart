@@ -6,10 +6,8 @@ import 'app_data.dart';
 // S'encarrega del dibuix personalitzat del joc
 class WidgetTresRatllaPainter extends CustomPainter {
   final AppData appData;
-  int col;
-  int filas;
-
-  WidgetTresRatllaPainter(this.appData, this.col, this.filas);
+  int colu;
+  WidgetTresRatllaPainter(this.appData, this.colu);
 
   // Dibuixa les linies del taulell
   void drawBoardLines(Canvas canvas, Size size) {
@@ -18,17 +16,17 @@ class WidgetTresRatllaPainter extends CustomPainter {
       ..strokeWidth = 5.0;
 
     // Definim els punts on es creuaran les línies verticals
-    final double firstVertical = size.width / col;
-    for (int i = 1; i < col; i++) {
+    final double firstVertical = size.width / colu;
+    for (int i = 1; i < colu; i++) {
       canvas.drawLine(Offset(firstVertical * i, 0),
           Offset(firstVertical * i, size.height), paint);
     }
     // Dibuixem les línies verticals
 
     // Definim els punts on es creuaran les línies horitzontals
-    final double firstHorizontal = size.height / filas;
+    final double firstHorizontal = size.height / colu;
 
-    for (int i = 1; i < filas; i++) {
+    for (int i = 1; i < colu; i++) {
       canvas.drawLine(Offset(0, firstHorizontal * i),
           Offset(size.width, firstHorizontal * i), paint);
     }
@@ -100,20 +98,20 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
     //CAMBIO
 
-    double cellWidth = size.width / 6;
-    double cellHeight = size.height / 6;
+    double cellWidth = size.width / colu;
+    double cellHeight = size.height / colu;
 
-    for (int i = 0; i < 6; i++) {
-      for (int j = 0; j < 6; j++) {
+    for (int i = 0; i < colu; i++) {
+      for (int j = 0; j < colu; j++) {
         if (appData.board[i][j] == 'X') {
           // Dibuixar una X amb el color del jugador
           Color color = Colors.blue;
-          switch (appData.colorPlayer) {
-            case "Blau":
-              color = Colors.blue;
+          switch (appData.tablero) {
+            case "9x9":
+              colu = 9;
               break;
             case "Verd":
-              color = Colors.green;
+              colu = 15;
               break;
             case "Gris":
               color = Colors.grey;
@@ -130,17 +128,6 @@ class WidgetTresRatllaPainter extends CustomPainter {
         } else if (appData.board[i][j] == 'O') {
           // Dibuixar una O amb el color de l'oponent
           Color color = Colors.blue;
-          switch (appData.colorOpponent) {
-            case "Vermell":
-              color = Colors.red;
-              break;
-            case "Taronja":
-              color = Colors.orange;
-              break;
-            case "Marró":
-              color = Colors.brown;
-              break;
-          }
 
           double x0 = j * cellWidth;
           double y0 = i * cellHeight;
@@ -178,8 +165,8 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
     // Centrem el text en el canvas
     final position = Offset(
-      (size.width - textPainter.width) / 4,
-      (size.height - textPainter.height) / 4,
+      (size.width - textPainter.width) / colu - 2,
+      (size.height - textPainter.height) / colu - 2,
     );
 
     // Dibuixar un rectangle semi-transparent que ocupi tot l'espai del canvas
